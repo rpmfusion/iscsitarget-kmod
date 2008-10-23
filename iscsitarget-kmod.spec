@@ -10,7 +10,7 @@
 
 Name:           iscsitarget-kmod
 Version:        0.4.15
-Release:        41.%{patchlevel}%{?dist}.1
+Release:        41.%{patchlevel}%{?dist}.2
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -26,9 +26,7 @@ Patch1:         iscsitarget-0.4.15-types.h.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # needed for plague to make sure it builds for i586 and i686
-ExclusiveArch:  i586 i686 x86_64 ppc64
-# ppc disabled by knurd on 20081003 as it is known to fail on 2.6.26: 
-# https://bugzilla.redhat.com/show_bug.cgi?id=464613
+ExclusiveArch:  i586 i686 x86_64 ppc ppc64
 
 # get the needed BuildRequires (in parts depending on what we build for)
 BuildRequires:  %{_bindir}/kmodtool
@@ -83,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 23 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.2
+- rebuild for latest kernel; enable ppc again
+
 * Fri Oct 03 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info - 1:0.4.15-41.svn147.1
 - rebuild for rpm fusion
 
