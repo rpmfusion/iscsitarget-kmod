@@ -3,14 +3,14 @@
 # "buildforkernels newest" macro for just that build; immediately after
 # queuing that build enable the macro again for subsequent builds; that way
 # a new akmod package will only get build when a new one is actually needed
-#define buildforkernels newest
+%define buildforkernels newest
 
 # Release code won't build for newer kernels
 %define patchlevel svn147
 
 Name:           iscsitarget-kmod
 Version:        0.4.15
-Release:        41.%{patchlevel}%{?dist}.5
+Release:        41.%{patchlevel}%{?dist}.6
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 14 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.6
+- rebuild for latest Fedora kernel;
+
 * Sun Nov 09 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.5
 - rebuild for latest Fedora kernel;
 
