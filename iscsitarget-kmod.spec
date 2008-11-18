@@ -10,7 +10,7 @@
 
 Name:           iscsitarget-kmod
 Version:        0.4.15
-Release:        41.%{patchlevel}%{?dist}.6
+Release:        41.%{patchlevel}%{?dist}.7
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Nov 18 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.7
+- rebuild for latest Fedora kernel;
+
 * Fri Nov 14 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.6
 - rebuild for latest Fedora kernel;
 
