@@ -1,0 +1,59 @@
+diff -up iscsitarget-0.4.15/kernel/block-io.c.orig iscsitarget-0.4.15/kernel/block-io.c
+--- iscsitarget-0.4.15/kernel/block-io.c.orig	2008-12-27 22:14:48.000000000 +0100
++++ iscsitarget-0.4.15/kernel/block-io.c	2008-12-27 22:15:49.000000000 +0100
+@@ -13,6 +13,7 @@
+ #include <linux/parser.h>
+ #include <linux/blkdev.h>
+ #include <linux/buffer_head.h>
++#include <linux/version.h>
+ 
+ #include "iscsi.h"
+ #include "iscsi_dbg.h"
+@@ -154,14 +155,27 @@ blockio_open_path(struct iet_volume *vol
+ {
+ 	struct blockio_data *bio_data = volume->private;
+ 	struct block_device *bdev;
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28)
++	fmode_t flags = FMODE_READ;
++#else
+ 	int flags = LUReadonly(volume) ? MS_RDONLY : 0;
++#endif
+ 	int err = 0;
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28)
++	if (!LUReadonly(volume))
++		flags |= FMODE_WRITE;
++#endif
++
+ 	bio_data->path = kstrdup(path, GFP_KERNEL);
+ 	if (!bio_data->path)
+ 		return -ENOMEM;
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28)
++	bdev = open_bdev_exclusive(path, flags, THIS_MODULE);
++#else
+ 	bdev = open_bdev_excl(path, flags, THIS_MODULE);
++#endif
+ 	if (IS_ERR(bdev)) {
+ 		err = PTR_ERR(bdev);
+ 		eprintk("Can't open device %s, error %d\n", path, err);
+@@ -310,9 +324,19 @@ static void
+ blockio_detach(struct iet_volume *volume)
+ {
+ 	struct blockio_data *bio_data = volume->private;
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28)
++	fmode_t flags = FMODE_READ;
++
++	if (!LUReadonly(volume))
++		flags |= FMODE_WRITE;
++#endif
+ 
+ 	if (bio_data->bdev)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28)
++		close_bdev_exclusive(bio_data->bdev, flags);
++#else
+ 		close_bdev_excl(bio_data->bdev);
++#endif
+ 	kfree(bio_data->path);
+ 
+ 	kfree(volume->private);

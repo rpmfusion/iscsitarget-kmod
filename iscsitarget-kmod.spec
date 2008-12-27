@@ -10,7 +10,7 @@
 
 Name:           iscsitarget-kmod
 Version:        0.4.15
-Release:        41.%{patchlevel}%{?dist}.11
+Release:        42.%{patchlevel}%{?dist}.1
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -23,6 +23,7 @@ Source0:        http://dl.sf.net/iscsitarget/iscsitarget-%{version}.tar.gz
 #       http://svn.berlios.de/svnroot/repos/iscsitarget/trunk/@147
 Patch0:         iscsitarget-0.4.15-%{patchlevel}.patch
 Patch1:         iscsitarget-0.4.15-types.h.patch
+Patch2:         iscsitarget-0.4.15-2.6.28.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # needed for plague to make sure it builds for i586 and i686
@@ -49,6 +50,7 @@ kmodtool  --target %{_target_cpu} --repo rpmfusion --kmodname %{name} %{?buildfo
 pushd iscsitarget-%{version}
 %patch0 -p0
 %patch1 -p1
+%patch2 -p1
 #%patch0 -p0 -b .svn142
 # -b creates empty mode 000 file that cannot be copied with cp -a
 popd
@@ -81,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Dec 27 2008 Hans de Goede <hdegoede@redhat.com> - 1:0.4.15-42.svn147.1
+- Fix compilation with 2.6.28 kernel
+
 * Sun Dec 21 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.11
 - rebuild for latest Fedora kernel;
 
