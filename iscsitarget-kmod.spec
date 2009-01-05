@@ -5,12 +5,9 @@
 # a new akmod package will only get build when a new one is actually needed
 %define buildforkernels newest
 
-# Release code won't build for newer kernels
-%define patchlevel svn147
-
 Name:           iscsitarget-kmod
-Version:        0.4.15
-Release:        42.%{patchlevel}%{?dist}.3
+Version:        0.4.17
+Release:        1%{?dist}
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -18,12 +15,7 @@ Group:          System Environment/Kernel
 License:        GPLv2
 URL:            http://sourceforge.net/projects/iscsitarget/
 Source0:        http://dl.sf.net/iscsitarget/iscsitarget-%{version}.tar.gz
-# This was created with:
-# svn diff http://svn.berlios.de/svnroot/repos/iscsitarget/tags/0.4.15/ \
-#       http://svn.berlios.de/svnroot/repos/iscsitarget/trunk/@147
-Patch0:         iscsitarget-0.4.15-%{patchlevel}.patch
-Patch1:         iscsitarget-0.4.15-types.h.patch
-Patch2:         iscsitarget-0.4.15-2.6.28.patch
+Patch0:         iscsitarget-0.4.17-2.6.29.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # needed for plague to make sure it builds for i586 and i686
@@ -48,11 +40,7 @@ kmodtool  --target %{_target_cpu} --repo rpmfusion --kmodname %{name} %{?buildfo
 # go
 %setup -q -c -T -a 0
 pushd iscsitarget-%{version}
-%patch0 -p0
-%patch1 -p1
-%patch2 -p1
-#%patch0 -p0 -b .svn142
-# -b creates empty mode 000 file that cannot be copied with cp -a
+%patch0 -p0 -b .2.6.29
 popd
 
 for kernel_version in %{?kernel_versions}; do
@@ -83,6 +71,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jan 05 2009 Lubomir Rintel <lkundrak@v3.sk> - 1:0.4.17-1
+- Bump to latest upstream version
+- Fix for 2.6.29
+
 * Sun Jan 04 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-42.svn147.3
 - rebuild for latest Fedora kernel;
 
