@@ -3,14 +3,11 @@
 # "buildforkernels newest" macro for just that build; immediately after
 # queuing that build enable the macro again for subsequent builds; that way
 # a new akmod package will only get build when a new one is actually needed
-%define buildforkernels newest
-
-# Release code won't build for newer kernels
-%define patchlevel svn147
+#define buildforkernels newest
 
 Name:           iscsitarget-kmod
-Version:        0.4.15
-Release:        41.%{patchlevel}%{?dist}.18
+Version:        0.4.17
+Release:        2%{?dist}.6
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -18,11 +15,7 @@ Group:          System Environment/Kernel
 License:        GPLv2
 URL:            http://sourceforge.net/projects/iscsitarget/
 Source0:        http://dl.sf.net/iscsitarget/iscsitarget-%{version}.tar.gz
-# This was created with:
-# svn diff http://svn.berlios.de/svnroot/repos/iscsitarget/tags/0.4.15/ \
-#       http://svn.berlios.de/svnroot/repos/iscsitarget/trunk/@147
-Patch0:         iscsitarget-0.4.15-%{patchlevel}.patch
-Patch1:         iscsitarget-0.4.15-types.h.patch
+Patch0:         iscsitarget-0.4.17-2.6.29.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # needed for plague to make sure it builds for i586 and i686
@@ -47,10 +40,7 @@ kmodtool  --target %{_target_cpu} --repo rpmfusion --kmodname %{name} %{?buildfo
 # go
 %setup -q -c -T -a 0
 pushd iscsitarget-%{version}
-%patch0 -p0
-%patch1 -p1
-#%patch0 -p0 -b .svn142
-# -b creates empty mode 000 file that cannot be copied with cp -a
+%patch0 -p0 -b .2.6.29
 popd
 
 for kernel_version in %{?kernel_versions}; do
@@ -81,31 +71,44 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Apr 15 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.18
+* Sun Apr 05 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-2.6
 - rebuild for new kernels
 
-* Wed Mar 25 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.17
-- rebuild for new kernels
+* Sun Mar 29 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-2.5
+- rebuild for new F11 features
 
-* Tue Feb 24 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.16
+* Sun Feb 15 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-1.5
 - rebuild for latest Fedora kernel;
 
-* Fri Feb 13 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.15
+* Sun Feb 01 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-1.4
 - rebuild for latest Fedora kernel;
 
-* Wed Jan 28 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.14
-- rebuild
-
-* Sat Jan 24 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.13
+* Sun Jan 25 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-1.3
 - rebuild for latest Fedora kernel;
 
-* Sat Dec 20 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.12
+* Sun Jan 18 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-1.2
 - rebuild for latest Fedora kernel;
 
-* Sat Dec 06 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.11
+* Sun Jan 11 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-1.1
 - rebuild for latest Fedora kernel;
 
-* Tue Dec 02 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.10
+* Mon Jan 05 2009 Lubomir Rintel <lkundrak@v3.sk> - 1:0.4.17-1
+- Bump to latest upstream version
+- Fix for 2.6.29
+
+* Sun Jan 04 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-42.svn147.3
+- rebuild for latest Fedora kernel;
+
+* Sun Dec 28 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-42.svn147.2
+- rebuild for latest Fedora kernel;
+
+* Sat Dec 27 2008 Hans de Goede <hdegoede@redhat.com> - 1:0.4.15-42.svn147.1
+- Fix compilation with 2.6.28 kernel
+
+* Sun Dec 21 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.11
+- rebuild for latest Fedora kernel;
+
+* Sun Dec 14 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.10
 - rebuild for latest Fedora kernel;
 
 * Sat Nov 22 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.15-41.svn147.9
