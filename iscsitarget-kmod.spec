@@ -7,7 +7,7 @@
 
 Name:           iscsitarget-kmod
 Version:        0.4.17
-Release:        2%{?dist}.10
+Release:        2%{?dist}.11
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -71,6 +71,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu May 21 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-2.11
+- rebuild for new kernels
+
 * Wed May 13 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-2.10
 - rebuild for new kernels
 
