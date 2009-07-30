@@ -7,7 +7,7 @@
 
 Name:           iscsitarget-kmod
 Version:        0.4.17
-Release:        2%{?dist}.14
+Release:        3%{?dist}
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -16,6 +16,7 @@ License:        GPLv2
 URL:            http://sourceforge.net/projects/iscsitarget/
 Source0:        http://dl.sf.net/iscsitarget/iscsitarget-%{version}.tar.gz
 Patch0:         iscsitarget-0.4.17-2.6.29.patch
+Patch1:         iscsitarget-0.4.17-2.6.31.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # needed for plague to make sure it builds for i586 and i686
@@ -41,6 +42,7 @@ kmodtool  --target %{_target_cpu} --repo rpmfusion --kmodname %{name} %{?buildfo
 %setup -q -c -T -a 0
 pushd iscsitarget-%{version}
 %patch0 -p0 -b .2.6.29
+%patch1 -p1 -b .2.6.31
 popd
 
 for kernel_version in %{?kernel_versions}; do
@@ -71,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jul 30 2009 Hans de Goede <hdegoede@redhat.com> - 1:0.4.17-3
+- Fix compilation with 2.6.31 kernel
+
 * Fri Jun 05 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-2.14
 - rebuild for final F11 kernel
 
