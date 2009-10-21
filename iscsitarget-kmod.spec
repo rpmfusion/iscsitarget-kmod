@@ -3,11 +3,11 @@
 # "buildforkernels newest" macro for just that build; immediately after
 # queuing that build enable the macro again for subsequent builds; that way
 # a new akmod package will only get build when a new one is actually needed
-#define buildforkernels newest
+%define buildforkernels newest
 
 Name:           iscsitarget-kmod
 Version:        0.4.17
-Release:        3%{?dist}
+Release:        3%{?dist}.1
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 21 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:0.4.17-3.1
+- rebuild for new kernels
+
 * Thu Jul 30 2009 Hans de Goede <hdegoede@redhat.com> - 1:0.4.17-3
 - Fix compilation with 2.6.31 kernel
 
