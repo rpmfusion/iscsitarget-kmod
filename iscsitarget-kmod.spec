@@ -7,7 +7,7 @@
 
 Name:           iscsitarget-kmod
 Version:        1.4.18
-Release:        1%{?dist}.19
+Release:        1%{?dist}.20
 Epoch:          1
 Summary:        iscsitarget kernel modules
 
@@ -66,6 +66,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Apr 10 2010 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:1.4.18-1.20
+- rebuild for new kernel
+
 * Mon Mar 29 2010 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1:1.4.18-1.19
 - rebuild for new kernel
 
